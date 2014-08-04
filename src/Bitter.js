@@ -1,6 +1,9 @@
 var Bitter = {
   _ids: [],
   _instances: {},
+  _errors: {
+    "IS_FROZEN": "This model is frozen and can't accept updates"
+  },
 
   getID: function () {
     id = 1;
@@ -56,7 +59,7 @@ Bitter.Model = function (attributes) { "use strict";
       this.emit("change", this.attributes);
       this.emit("change:"+attribute, value);
     } else {
-      this.emit("error", "This model is frozen and can't accept updates");
+      this.emit("error", Bitter._errors.IS_FROZEN);
     }
   };
 
@@ -66,11 +69,23 @@ Bitter.Model = function (attributes) { "use strict";
 
       this.emit("change", this.attributes);
     } else {
-      this.emit("error", "This model is frozen and can't accept updates");
+      this.emit("error", Bitter._errors.IS_FROZEN);
     }
   };
 
   this.unfreeze = function () {
     this.frozen = false;
   };
+
+  return {
+    attributes:   this.attributes,
+    set:          this.set,
+    get:          this.get,
+    freeze:       this.freeze,
+    unfreeze:     this.unfreeze,
+    id:           this.id,
+    emit:         this.emit,
+    on:           this.on,
+    reset:        this.reset
+  }
 };

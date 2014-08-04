@@ -134,6 +134,7 @@ describe ("Models", function () {
           frozenModel.set("foo", "pippo");
 
           assume("var frozenModel.emit.mostRecentCall.args[0] is 'error'");
+          assume("var frozenModel.emit.mostRecentCall.args[1] is var Bitter._errors.IS_FROZEN");
         });
       });
 
@@ -145,6 +146,7 @@ describe ("Models", function () {
           frozenModel.reset();
 
           assume("var frozenModel.emit.mostRecentCall.args[0] is 'error'");
+          assume("var frozenModel.emit.mostRecentCall.args[1] is var Bitter._errors.IS_FROZEN");
         });
       });
 
