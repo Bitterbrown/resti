@@ -1,5 +1,6 @@
 Bitter.Model = function (attributes) { "use strict";
   Bitter.Events.call(this);
+  this.__require = Bitter.modules.require;
 
   this.attributes = attributes;
   this.id = Bitter.getID();
@@ -16,7 +17,7 @@ Bitter.Model = function (attributes) { "use strict";
   };
 
   this.set = function (attribute, value) {
-    if (this.frozen === true) return this.emit("error", Bitter._errors.IS_FROZEN);
+    if(this.__require(this, ["unfrozen"]) !== true) return;
 
     this.attributes[attribute] = value;
 
@@ -25,7 +26,7 @@ Bitter.Model = function (attributes) { "use strict";
   };
 
   this.link = function (attribute, referenceModel, referenceAttribute) {
-    if (this.frozen === true) return this.emit("error", Bitter._errors.IS_FROZEN);
+    if(this.__require(this, ["unfrozen"]) !== true) return;
 
     var _this = this;
 
@@ -35,7 +36,7 @@ Bitter.Model = function (attributes) { "use strict";
   };
 
   this.reset = function (hash) {
-    if (this.frozen === true) return this.emit("error", Bitter._errors.IS_FROZEN);
+    if(this.__require(this, ["unfrozen"]) !== true) return;
 
     this.attributes = (hash || {});
 
@@ -45,17 +46,5 @@ Bitter.Model = function (attributes) { "use strict";
   this.unfreeze = function () {
     this.frozen = false;
   };
-//
-//  return {
-//    attributes:   this.attributes,
-//    set:          this.set,
-//    get:          this.get,
-//    freeze:       this.freeze,
-//    unfreeze:     this.unfreeze,
-//    id:           this.id,
-//    emit:         this.emit,
-//    on:           this.on,
-//    link:         this.link,
-//    reset:        this.reset
-//  }
+
 };

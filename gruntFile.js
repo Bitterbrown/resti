@@ -15,7 +15,7 @@ module.exports = function(grunt){
 
     concat: {
       dist: {
-        src: ['src/bitter.js','src/bitter.events.js','src/bitter.models.js','src/bitter.collections.js'],
+        src: ['src/bitter.js','src/bitter.events.js', 'src/bitter.models.js','src/bitter.collections.js'],
         dest: 'dist/resti.js'
       }
     },
