@@ -25,6 +25,26 @@ describe("Collections", function () {
 
   });
 
+  describe("Methods", function () {
+
+    describe("Add", function () {
+
+      it("should add a model to a collection", function () {
+        window.testCollection = new Bitter.Collection();
+
+        assume("var testCollection.length is 0");
+
+        runs(function () {
+          testCollection.add(new Bitter.Model({foo: "bar"}));
+        });
+
+        assume("var testCollection.length is 1 and var Bitter.isModel(testCollection.collection[0]) is true");
+      });
+
+    });
+
+  });
+
 
   describe("Events", function () {
 

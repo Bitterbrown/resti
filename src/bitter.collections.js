@@ -14,6 +14,18 @@ Bitter.Collection = function (collection) { "use strict";
     };
   };
 
+  this.add = function (model) {
+    if (Bitter.isModel(model)) {
+      this.collection.push(model);
+      this.length = this.collection.length;
+
+      this.emit("add", model);
+      this.emit("change", this);
+    } else {
+      this.emit("error", Bitter._errors.IS_NOT_MODEL, model);
+    }
+  };
+
   this.collection = (collection || []);
   this.length = this.collection.length;
   this.id = Bitter.getID();
