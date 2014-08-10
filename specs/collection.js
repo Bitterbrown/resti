@@ -58,6 +58,26 @@ describe("Collections", function () {
 
     });
 
+    describe("Find", function () {
+
+      beforeEach(function () {
+        window.collection = new Bitter.Collection();
+        window.model = new Bitter.Model();
+
+        collection.add(model);
+      });
+
+      it("should find a model given it's ID", function () {
+        assume("var collection.find(model.id) isnt false and var collection.find(model.id) is var model");
+      });
+
+      it("should test if a model is present", function () {
+        assume("var collection.find(model) isnt false");
+        assume("var collection.find('invalidID') is false");
+      });
+
+    });
+
   });
 
 

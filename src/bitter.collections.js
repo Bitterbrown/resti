@@ -26,10 +26,12 @@ Bitter.Collection = function (collection) { "use strict";
     }
   };
 
-  this.find = function (what) {
-    var bid = ( Bitter.isModel(what) ? what.id : id);
+  this.find = function (bid) {
+    if (Bitter.isModel(bid))
+      bid = bid.id;
+
     for (var i=0; i<this.collection.length; i++) {
-      if( this.collection[i].id === bid )
+      if( this.collection[i].id == bid )
         return this.collection[i];
     };
     return false;
