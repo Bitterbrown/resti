@@ -43,11 +43,12 @@ Bitter.Collection = function (collection) { "use strict";
     return false;
   };
 
+  this.first = function () {
+    return this.at(0);
+  };
+
   this.last = function () {
-    if(this.collection.length > 0)
-      return this.collection[this.collection.length-1];
-    else
-      this.emit("error", Bitter._errors.COLLECTION_EMPTY);
+    return this.at(this.collection.length-1);
   };
 
   this.collection = (collection || []);
