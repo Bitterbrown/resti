@@ -1,24 +1,22 @@
-Bitter.Events = function () { "use strict";
-  var _events = [];
+Bitter.Events = {
+  _events: [],
 
-  this.on = function (eventName, callback) {
-    if (_events[eventName] === undefined) {
-      _events[eventName] = new Array();
+  on: function (eventName, callback) {
+    if (this._events[eventName] === undefined) {
+      this._events[eventName] = new Array();
     }
-    _events[eventName].push (callback);
-  };
+    this._events[eventName].push (callback);
+  },
 
-  this.emit = function (name, value) {
-    if (_events[name] !== undefined ) {
-      for (var i = 0; i<_events[name].length; i++) {
-        _events[name][i](value || null);
+  emit: function (name, value) {
+    if (this._events[name] !== undefined ) {
+      for (var i = 0; i<this._events[name].length; i++) {
+        this._events[name][i](value || null);
       };
     };
-  };
+  },
 
-  return _events;
-};
-
-Bitter.Events.Reset = function () { "use strict";
-  var _events = [];
+  clearEvents: function () {
+    this._events = [];
+  }
 };

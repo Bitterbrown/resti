@@ -1,10 +1,42 @@
 Bitter.Collection = function (collection) { "use strict";
-  Bitter.Events.call(this);
-  this.__require = Bitter.modules.require;
 
-  this.bindCollectionEvents = function () {
-    Bitter.Events.Reset.call(this);
+  this.id = Bitter.getID();
+  this.collection = (collection || []);
+  this.length = this.collection.length;
+
+  Bitter._instances[this.id] = this.collection;
+
+  this.bindCollectionEvents.apply(this);
+  this.initialize.apply(this, arguments);
+};
+
+Bitter.extend(Bitter.Collection.prototype, Bitter.Events);
+
+Bitter.extend(Bitter.Collection.prototype, {
+
+  __require: Bitter.modules.require,
+
+  add: function (model) {
+    if(this.__require.call(this, model, ["isModel", "unique"]) !== true) return;
+
+    this.collection.push(model);
+    this.length = this.collection.length;
+
+    this.emit("add", model);
+    this.emit("change", this);
+  },
+
+  at: function (index) {
+    if(this.collection[index] !== undefined)
+      return this.collection[index];
+    else
+      this.emit("error", Bitter._errors.INDEX_NOT_FOUND);
+  },
+
+  bindCollectionEvents: function () {
     var _this = this;
+
+    this.clearEvents();
 
     for (var i=0; i<this.collection.length; i++) {
       if (Bitter.isModel(this.collection[i])) {
@@ -13,26 +45,9 @@ Bitter.Collection = function (collection) { "use strict";
         });
       };
     };
-  };
+  },
 
-  this.add = function (model) {
-    if(this.__require(model, ["isModel", "unique"]) !== true) return;
-
-    this.collection.push(model);
-    this.length = this.collection.length;
-
-    this.emit("add", model);
-    this.emit("change", this);
-  };
-
-  this.at = function (index) {
-    if(this.collection[index] !== undefined)
-      return this.collection[index];
-    else
-      this.emit("error", Bitter._errors.INDEX_NOT_FOUND);
-  };
-
-  this.find = function (bid) {
+  find: function (bid) {
     if (Bitter.isModel(bid))
       bid = bid.id;
 
@@ -41,21 +56,18 @@ Bitter.Collection = function (collection) { "use strict";
         return this.collection[i];
     };
     return false;
-  };
+  },
 
-  this.first = function () {
+  first: function () {
     return this.at(0);
-  };
+  },
 
-  this.last = function () {
+  last: function () {
     return this.at(this.collection.length-1);
-  };
+  },
 
-  this.collection = (collection || []);
-  this.length = this.collection.length;
-  this.id = Bitter.getID();
 
-  Bitter._instances[this.id] = this.collection;
+  // User specific
+  initialize: function () {}
 
-  this.bindCollectionEvents();
-};
+});

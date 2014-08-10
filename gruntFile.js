@@ -5,7 +5,7 @@ module.exports = function(grunt){
     watch: {
       dev: {
         files: ["src/*.js", "specs/*.js"],
-        tasks: ["concat", "jasmine:pivotal"]
+        tasks: ["concat", "jasmine:pivotal", "uglify"]
       },
       jasmine: {
         files: ["specs/*.js"],
@@ -17,6 +17,14 @@ module.exports = function(grunt){
       dist: {
         src: ['src/bitter.js','src/bitter.events.js', 'src/bitter.models.js','src/bitter.collections.js'],
         dest: 'dist/resti.js'
+      }
+    },
+
+    uglify: {
+      dev: {
+        files: {
+          'dist/resti.min.js': ['dist/resti.js']
+        }
       }
     },
 
@@ -47,6 +55,7 @@ module.exports = function(grunt){
   grunt.loadNpmTasks("grunt-contrib-jasmine");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-concat");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
 
   grunt.registerTask("dev", [ "watch" ]);
   grunt.registerTask("deploy", [ "jshint", "jslint" ]);

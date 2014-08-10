@@ -8,6 +8,8 @@ var Bitter = {
     "INDEX_NOT_FOUND"       : "Can't find any model with that index"
   },
   modules: {
+
+    // Must run on collection scope
     require: function (what, requirements) {
       for ( var i=0; i<requirements.length; i++) {
         switch(requirements[i]) {
@@ -26,6 +28,25 @@ var Bitter = {
         };
       };
       return true;
+    },
+
+    // Must run on collection scope
+//    bindCollectionEvents: function () {
+//      this.clearEvents();
+//
+//      for (var i=0; i<this.collection.length; i++) {
+//        if (Bitter.isModel(this.collection[i])) {
+//          this.collection[i].on("change", function (model) {
+//            this.emit("change", model);
+//          });
+//        };
+//      };
+//    }
+  },
+
+  extend: function(source, extension) {
+    for(prop in extension) {
+      source[prop] = extension[prop];
     }
   },
 
@@ -42,7 +63,6 @@ var Bitter = {
   },
 
   isCollection: function (collection) {
-    return collection.collection !== undefined
-//    return collection instanceof Bitter.Collection && collection.id !== undefined;
+    return collection instanceof Bitter.Collection && collection.id !== undefined;
   }
 };
