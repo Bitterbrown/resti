@@ -15,7 +15,7 @@ Bitter.Collection = function (collection) { "use strict";
   };
 
   this.add = function (model) {
-    if (Bitter.isModel(model)) {
+    if (Bitter.isModel(model) && this.find(model) === false) {
       this.collection.push(model);
       this.length = this.collection.length;
 
@@ -24,6 +24,15 @@ Bitter.Collection = function (collection) { "use strict";
     } else {
       this.emit("error", Bitter._errors.IS_NOT_MODEL, model);
     }
+  };
+
+  this.find = function (what) {
+    var bid = ( Bitter.isModel(what) ? what.id : id);
+    for (var i=0; i<this.collection.length; i++) {
+      if( this.collection[i].id === bid )
+        return this.collection[i];
+    };
+    return false;
   };
 
   this.collection = (collection || []);

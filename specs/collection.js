@@ -41,6 +41,21 @@ describe("Collections", function () {
         assume("var testCollection.length is 1 and var Bitter.isModel(testCollection.collection[0]) is true");
       });
 
+      it("should not add a model if already present", function () {
+        window.testCollection = new Bitter.Collection();
+        window.testModel = new Bitter.Model({foo: "bar"});
+
+        testCollection.add(testModel);
+
+        assume("var testCollection.length is 1");
+
+        runs(function () {
+          testCollection.add(testModel);
+        });
+
+        assume("var testCollection.length is 1");
+      });
+
     });
 
   });
@@ -65,6 +80,20 @@ describe("Collections", function () {
 
           assume("var collection.emit.mostRecentCall.args[0] is 'change'");
           assume("var collection.emit.mostRecentCall.args[1] is var model_a");
+        });
+      });
+
+    });
+
+    describe("Add", function () {
+
+      it("should emit add when a model is added to a collection", function () {
+        collection.on("add", function () {});
+
+        assume ("method collection.emit is called", function () {
+          collection.add(new Bitter.Model({foo: "bar"}));
+
+          assume("var collection.emit.calls[0].args[0] is 'add'");
         });
       });
 
