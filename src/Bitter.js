@@ -15,10 +15,10 @@ var Bitter = {
   },
 
   isModel: function (model) {
-    return (model !== undefined && model.id !== undefined && Bitter._instances[model.id] !== undefined && model.attributes !== undefined && model.collection === undefined);
+    return model instanceof Bitter.Model && model.id !== undefined;
   },
 
   isCollection: function (collection) {
-    return (collection !== undefined && collection.id !== undefined && Bitter._instances[collection.id] !== undefined && collection.attributes === undefined && collection.collection !== undefined);
+    return collection instanceof Bitter.Collection && collection.id !== undefined;
   }
 };

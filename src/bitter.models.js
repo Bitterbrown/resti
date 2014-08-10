@@ -16,42 +16,36 @@ Bitter.Model = function (attributes) { "use strict";
   };
 
   this.set = function (attribute, value) {
-    if (this.frozen !== true) {
-      this.attributes[attribute] = value;
+    if (this.frozen === true) return this.emit("error", Bitter._errors.IS_FROZEN);
 
-      this.emit("change", this);
-      this.emit("change:"+attribute, value);
-    } else {
-      this.emit("error", Bitter._errors.IS_FROZEN);
-    }
+    this.attributes[attribute] = value;
+
+    this.emit("change", this);
+    this.emit("change:"+attribute, value);
   };
 
   this.link = function (attribute, referenceModel, referenceAttribute) {
+    if (this.frozen === true) return this.emit("error", Bitter._errors.IS_FROZEN);
+
     var _this = this;
 
-    if (this.frozen !== true) {
-      referenceModel.on("change:"+referenceAttribute, function (value) {
-        _this.set(attribute, value);
-      });
-    } else {
-      this.emit("error", Bitter._errors.IS_FROZEN);
-    };
+    referenceModel.on("change:"+referenceAttribute, function (value) {
+      _this.set(attribute, value);
+    });
   };
 
   this.reset = function (hash) {
-    if (this.frozen !== true) {
-      this.attributes = (hash || {});
+    if (this.frozen === true) return this.emit("error", Bitter._errors.IS_FROZEN);
 
-      this.emit("change", this.attributes);
-    } else {
-      this.emit("error", Bitter._errors.IS_FROZEN);
-    }
+    this.attributes = (hash || {});
+
+    this.emit("change", this);
   };
 
   this.unfreeze = function () {
     this.frozen = false;
   };
-
+//
 //  return {
 //    attributes:   this.attributes,
 //    set:          this.set,
@@ -61,6 +55,7 @@ Bitter.Model = function (attributes) { "use strict";
 //    id:           this.id,
 //    emit:         this.emit,
 //    on:           this.on,
+//    link:         this.link,
 //    reset:        this.reset
 //  }
 };
