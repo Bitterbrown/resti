@@ -58,6 +58,30 @@ describe("Collections", function () {
 
     });
 
+    describe("At", function () {
+
+      it("should return a model at the given index", function () {
+        window.model_a = new Bitter.Model({foo: "aaa"});
+        window.model_b = new Bitter.Model({foo: "bbb"});
+        window.model_c = new Bitter.Model({foo: "ccc"});
+        window.collection = new Bitter.Collection([model_a, model_b, model_c]);
+
+        assume("var collection.at(1) is var model_b");
+      });
+
+      it("should emit an error if the index doesn't exists", function () {
+        window.emptyColl = new Bitter.Collection;
+
+        assume("method emptyColl.emit is called", function () {
+          emptyColl.at(1);
+
+          assume("var emptyColl.emit.mostRecentCall.args[0] is 'error'");
+          assume("var emptyColl.emit.mostRecentCall.args[1] is var Bitter._errors.INDEX_NOT_FOUND");
+        });
+      });
+
+    });
+
     describe("Find", function () {
 
       beforeEach(function () {

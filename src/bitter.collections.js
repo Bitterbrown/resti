@@ -25,6 +25,13 @@ Bitter.Collection = function (collection) { "use strict";
     this.emit("change", this);
   };
 
+  this.at = function (index) {
+    if(this.collection[index] !== undefined)
+      return this.collection[index];
+    else
+      this.emit("error", Bitter._errors.INDEX_NOT_FOUND);
+  };
+
   this.find = function (bid) {
     if (Bitter.isModel(bid))
       bid = bid.id;

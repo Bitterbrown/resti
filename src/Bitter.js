@@ -4,7 +4,8 @@ var Bitter = {
   _errors: {
     "IS_FROZEN"             : "This model is frozen and can't accept updates",
     "IS_NOT_MODEL"          : "The given var is not a model",
-    "MODEL_ALREADY_EXISTS"  : "The model is already present: skipping"
+    "MODEL_ALREADY_EXISTS"  : "The model is already present: skipping",
+    "INDEX_NOT_FOUND"       : "Can't find any model with that index"
   },
   modules: {
     require: function (what, requirements) {
