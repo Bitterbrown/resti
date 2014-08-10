@@ -1,0 +1,30 @@
+{
+  "name": "bitter.resti",
+  "version": "1",
+  "homepage": "http://www.bitterbrown.com/resti",
+  "authors": [
+    "Paolo Moretti <littlebrown@gmail.com>"
+  ],
+  "description": "Let's deal with RestFul and models/collections easily",
+  "main": "dist/resti.min.js",
+  "keywords": [
+    "restful",
+    "mv*",
+    "model",
+    "collection",
+    "library"
+  ],
+  "dependencies": {
+    "jquery": "~1.9"
+  },
+  "license": "MIT",
+  "ignore": [
+    ".grunt",
+    "dependencies/*.*",
+    "node_modules",
+    "specs",
+    "_SpecRunner.html",
+    ".travis.yml",
+    "gruntFile.js"
+  ]
+}

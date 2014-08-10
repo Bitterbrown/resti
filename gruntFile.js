@@ -4,12 +4,12 @@ module.exports = function(grunt){
 
     watch: {
       dev: {
-        files: ["src/*.js", "specs/*.js"],
+        files: ["src/*.js"],
         tasks: ["concat", "jasmine:pivotal", "uglify"]
       },
       jasmine: {
         files: ["specs/*.js"],
-        tasks: ["jasmine:pivotal:build"]
+        tasks: ["jasmine:pivotal"]
       }
     },
 

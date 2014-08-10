@@ -102,6 +102,56 @@ describe ("Models", function () {
 
     });
 
+    describe("Fetch", function () {
+
+      it("should throw error if resti doesn't have the Restful API uri setted", function () {
+        window.model = new Bitter.Model({id: 1});
+
+        assume("method model.emit is called", function () {
+          model.fetch();
+
+          assume("var model.emit.mostRecentCall.args[0] is 'error'");
+          assume("var model.emit.mostRecentCall.args[1] is var Bitter._errors.NO_API_URI");
+        });
+      })
+
+      it("should throw error if model doesn't have id", function () {
+        Bitter.config.apiUri = "http://fakeApi";
+
+        window.model = new Bitter.Model;
+
+        assume("method model.emit is called", function () {
+          model.fetch();
+
+          assume("var model.emit.mostRecentCall.args[0] is 'error'");
+          assume("var model.emit.mostRecentCall.args[1] is var Bitter._errors.MODEL_HAS_NO_ID");
+        });
+      });
+
+      it("should call API if conditions above are met", function () {
+        window.model = new Bitter.Model({id: 1});
+
+        assume("method jQuery.ajax is called", function () {
+          model.fetch();
+
+          assume("var $.ajax.mostRecentCall.args[0].url is '"+Bitter.config.apiUri+"/"+model.get("id")+"'");
+        });
+      });
+
+//      it("should automatically fetch if model has an ID and resti has the Restful API uri setted", function () {
+//
+//      })
+//
+//      it("should automatically fetch from server if model has a url method", function () {
+//        window.model = new Bitter.Model({}, {
+//          path: function () {
+//            return "http://domain/api"
+//          }
+//        });
+//      });
+
+    });
+
   });
 
   describe ("Model events", function () {

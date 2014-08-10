@@ -30,13 +30,22 @@ Bitter.extend(Bitter.Model.prototype, {
     this.emit("change:"+attribute, value);
   },
 
+  fetch: function () {
+    if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
+
+    $.ajax({
+      url: this.url(),
+      method: "GET"
+    });
+  },
+
   link: function (attribute, referenceModel, referenceAttribute) {
     if(this.__require(this, ["unfrozen"]) !== true) return;
 
     var _this = this;
 
     referenceModel.on("change:"+referenceAttribute, function (value) {
-      _this.set(attribute, value);
+      _this.attributes[attribute] = value;
     });
   },
 
@@ -50,6 +59,10 @@ Bitter.extend(Bitter.Model.prototype, {
 
   unfreeze: function () {
     this.frozen = false;
+  },
+
+  url: function () {
+    return Bitter.config.apiUri + "/" + this.get("id");
   }
 
 });
