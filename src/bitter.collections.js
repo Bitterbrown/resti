@@ -43,6 +43,13 @@ Bitter.Collection = function (collection) { "use strict";
     return false;
   };
 
+  this.last = function () {
+    if(this.collection.length > 0)
+      return this.collection[this.collection.length-1];
+    else
+      this.emit("error", Bitter._errors.COLLECTION_EMPTY);
+  };
+
   this.collection = (collection || []);
   this.length = this.collection.length;
   this.id = Bitter.getID();

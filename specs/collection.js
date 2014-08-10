@@ -102,6 +102,31 @@ describe("Collections", function () {
 
     });
 
+    describe("Last", function () {
+
+      it("should return the last model", function () {
+        window.model_a = new Bitter.Model({foo: "aaa"});
+        window.model_b = new Bitter.Model({foo: "bbb"});
+        window.model_c = new Bitter.Model({foo: "ccc"});
+        window.collection = new Bitter.Collection([model_a, model_b, model_c]);
+
+        assume("var collection.last() is var model_c");
+      });
+
+      it("should emit an error if collection is empty", function () {
+        window.emptyColl = new Bitter.Collection;
+
+        assume("method emptyColl.emit is called", function () {
+          emptyColl.last();
+
+          assume("var emptyColl.emit.mostRecentCall.args[0] is 'error'");
+          assume("var emptyColl.emit.mostRecentCall.args[1] is var Bitter._errors.COLLECTION_EMPTY");
+        });
+      });
+
+    });
+
+
   });
 
 
