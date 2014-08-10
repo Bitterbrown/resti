@@ -18,3 +18,7 @@ Bitter.Events = function () { "use strict";
 
   return _events;
 };
+
+Bitter.Events.Reset = function () { "use strict";
+  var _events = [];
+};

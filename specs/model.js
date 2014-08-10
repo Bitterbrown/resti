@@ -88,6 +88,20 @@ describe ("Models", function () {
 
     });
 
+    describe("Link", function () {
+
+      it("should link a model attribute to another model attribute", function () {
+        model = new Bitter.Model({ foo: "bar" });
+        model2 = new Bitter.Model({ foo: "initial value" });
+
+        model2.link("foo", model, "foo" );
+        model.set("foo", "new value");
+
+        assume("var model2.get('foo') is 'new value'");
+      });
+
+    });
+
   });
 
   describe ("Model events", function () {
@@ -105,7 +119,7 @@ describe ("Models", function () {
           model.set("name", "new value");
 
           assume("var model.emit.calls[0].args[0] is 'change'");
-          assume("var model.emit.calls[0].args[1] is var model.attributes");
+          assume("var model.emit.calls[0].args[1] is var model");
 
           assume("var model.emit.mostRecentCall.args[0] is 'change:name'");
           assume("var model.emit.mostRecentCall.args[1] is 'new value'");
