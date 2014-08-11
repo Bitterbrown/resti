@@ -185,6 +185,28 @@ describe ("Models", function () {
 
     });
 
+    describe("Create", function () {
+
+      it("should be able to create a model", function () {
+        Bitter.config.apiUri = "http://fakeApi";
+
+        window.modelHash = {
+          id: 1,
+          name: "foo",
+          description: "bar"
+        }
+        window.model = new Bitter.Model(modelHash);
+
+        assume("method jQuery.ajax is called", function () {
+          model.create();
+
+          assume("var jQuery.ajax.mostRecentCall.args[0].method.toLowerCase() is 'post'");
+          assume("var jQuery.ajax.mostRecentCall.args[0].url is '"+Bitter.config.apiUri+"/1'");
+        });
+      });
+
+    });
+
   });
 
   describe ("Model events", function () {

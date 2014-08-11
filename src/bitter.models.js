@@ -13,21 +13,18 @@ Bitter.extend(Bitter.Model.prototype, {
 
   __require: Bitter.modules.require,
 
-  freeze: function (status) {
-    this.frozen = (status || true);
-  },
+  create: function () {
+    if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
 
-  get: function (name) {
-    return this.attributes[name];
-  },
+    var _this = this;
 
-  set: function (attribute, value) {
-    if(this.__require(this, ["unfrozen"]) !== true) return;
-
-    this.attributes[attribute] = value;
-
-    this.emit("change", this);
-    this.emit("change:"+attribute, value);
+    $.ajax({
+      url: this.url(),
+      method: "POST",
+      success: function (data) {
+        _this.parse(data);
+      }
+    });
   },
 
   fetch: function () {
@@ -41,6 +38,14 @@ Bitter.extend(Bitter.Model.prototype, {
         _this.parse(data);
       }
     });
+  },
+
+  freeze: function (status) {
+    this.frozen = (status || true);
+  },
+
+  get: function (name) {
+    return this.attributes[name];
   },
 
   link: function (attribute, referenceModel, referenceAttribute) {
@@ -63,6 +68,15 @@ Bitter.extend(Bitter.Model.prototype, {
     this.attributes = (hash || {});
 
     this.emit("change", this);
+  },
+
+  set: function (attribute, value) {
+    if(this.__require(this, ["unfrozen"]) !== true) return;
+
+    this.attributes[attribute] = value;
+
+    this.emit("change", this);
+    this.emit("change:"+attribute, value);
   },
 
   unfreeze: function () {
