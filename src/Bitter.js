@@ -9,8 +9,11 @@ var Bitter = {
     "NO_API_URI"            : "No API uri is provided",
     "INDEX_NOT_FOUND"       : "Can't find any model with that index"
   },
-  config: {
-    apiUri: false
+  defaults: {
+    api: {
+      uri: false,
+      version: 1
+    }
   },
   modules: {
 
@@ -24,7 +27,7 @@ var Bitter = {
             break;
 
           case "hasApiUrl":
-            if (Bitter.config.apiUri === false)
+            if (Bitter.defaults.api.uri === false || Bitter.defaults.api.uri === "" || Bitter.defaults.api.uri === null)
               return this.emit("error", Bitter._errors.NO_API_URI);
 
           case "modelHasID":
