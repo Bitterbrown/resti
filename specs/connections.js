@@ -1,10 +1,22 @@
 describe("Connections", function () {
 
-  it("should have a connection module to extend resti classes", function () {
+  describe("Ajax call", function () {
+
+    it("should have a call method to call API", function () {
+      assume("var Bitter.ajax isnt undefined");
+    });
+
+  });
+
+
+
+
+
+  xit("should have a connection module to extend resti classes", function () {
     assume("var Bitter.Connect isnt undefined");
   });
 
-  describe("Api methods", function () {
+  xdescribe("Api methods", function () {
 
     it("should have an api object to deal with calls", function () {
       assume("var Bitter.Connect.api isnt undefined");
