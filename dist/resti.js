@@ -118,6 +118,17 @@ Bitter.extend(Bitter.Model.prototype, {
     });
   },
 
+  done: function (callback) {
+    this.doneCallback = callback;
+  },
+
+  doneInternal: function (data) {
+    if (this.doneCallback !== undefined && typeof(this.doneCallback) === "function") {
+      this.doneCallback(data);
+      this.doneCallback = undefined;
+    };
+  },
+
   fetch: function () {
     if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
     var _this = this;
@@ -126,9 +137,12 @@ Bitter.extend(Bitter.Model.prototype, {
       url: this.url(),
       method: "GET",
       success: function (data) {
-        _this.parse(data);
+        _this.reset(_this.parse(data));
+        _this.doneInternal(data);
       }
     });
+
+    return this;
   },
 
   freeze: function (status) {
@@ -150,7 +164,7 @@ Bitter.extend(Bitter.Model.prototype, {
   },
 
   parse: function (data) {
-    this.reset(data);
+    return data;
   },
 
   reset: function (hash) {

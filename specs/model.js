@@ -169,6 +169,13 @@ describe ("Models", function () {
           });
         });
 
+        it("should have a done method to execute a callback", function () {
+          assume("method model.doneInternal is called", function () {
+            model.fetch();
+          });
+
+        });
+
       });
 
 //      it("should automatically fetch if model has an ID and resti has the Restful API uri setted", function () {
