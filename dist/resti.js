@@ -114,8 +114,23 @@ Bitter.extend(Bitter.Model.prototype, {
       method: "POST",
       success: function (data) {
         _this.parse(data);
+        _this.doneInternal(data);
       }
     });
+    return this;
+  },
+
+  delete: function () {
+    if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
+
+    $.ajax({
+      url: this.url(),
+      method: "DELETE",
+      success: function (data) {
+        _this.doneInternal(data);
+      }
+    });
+    return this;
   },
 
   done: function (callback) {
