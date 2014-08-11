@@ -9,8 +9,11 @@ var Bitter = {
     "NO_API_URI"            : "No API uri is provided",
     "INDEX_NOT_FOUND"       : "Can't find any model with that index"
   },
-  config: {
-    apiUri: false
+  defaults: {
+    api: {
+      uri: false,
+      version: 1
+    }
   },
   modules: {
 
@@ -24,7 +27,7 @@ var Bitter = {
             break;
 
           case "hasApiUrl":
-            if (Bitter.config.apiUri === false)
+            if (Bitter.defaults.api.uri === false || Bitter.defaults.api.uri === "" || Bitter.defaults.api.uri === null)
               return this.emit("error", Bitter._errors.NO_API_URI);
 
           case "modelHasID":
@@ -89,6 +92,14 @@ Bitter.Events = {
     this._events = [];
   }
 };
+Bitter.Connect = {
+
+  api: {
+    url: Bitter.defaults.api.uri,
+    version: Bitter.defaults.api.version
+  }
+
+};
 Bitter.Model = function (attributes) { "use strict";
 
   this.id = Bitter.getID();
@@ -99,6 +110,7 @@ Bitter.Model = function (attributes) { "use strict";
 };
 
 Bitter.extend(Bitter.Model.prototype, Bitter.Events);
+Bitter.extend(Bitter.Model.prototype, Bitter.Connect);
 
 Bitter.extend(Bitter.Model.prototype, {
 
@@ -204,7 +216,7 @@ Bitter.extend(Bitter.Model.prototype, {
   },
 
   url: function () {
-    return Bitter.config.apiUri + "/" + this.get("id");
+    return Bitter.defaults.api.uri + "/" + this.get("id");
   }
 
 });

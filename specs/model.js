@@ -116,7 +116,7 @@ describe ("Models", function () {
       })
 
       it("should throw error if model doesn't have id", function () {
-        Bitter.config.apiUri = "http://fakeApi";
+        Bitter.defaults.api.uri = "http://fakeApi";
 
         window.model = new Bitter.Model;
 
@@ -134,14 +134,14 @@ describe ("Models", function () {
         assume("method jQuery.ajax is called", function () {
           model.fetch();
 
-          assume("var $.ajax.mostRecentCall.args[0].url is '"+Bitter.config.apiUri+"/"+model.get("id")+"'");
+          assume("var $.ajax.mostRecentCall.args[0].url is '"+Bitter.defaults.api.uri+"/"+model.get("id")+"'");
         });
       });
 
       describe("Operations", function () {
 
         beforeEach(function () {
-          Bitter.config.apiUri = "http://fakeApi";
+          Bitter.defaults.api.uri = "http://fakeApi";
 
           window.model = new Bitter.Model({id: 1});
           window.apiResponse = {
@@ -150,7 +150,7 @@ describe ("Models", function () {
             description: "test model description"
           }
           assume("method jQuery.ajax is mocked", function (params) {
-            if(params.url == Bitter.config.apiUri + "/1" && params.method.toLowerCase() == "get")
+            if(params.url == Bitter.defaults.api.uri + "/1" && params.method.toLowerCase() == "get")
               params.success(window.apiResponse);
           });
         });
@@ -178,24 +178,12 @@ describe ("Models", function () {
 
       });
 
-//      it("should automatically fetch if model has an ID and resti has the Restful API uri setted", function () {
-//
-//      })
-//
-//      it("should automatically fetch from server if model has a url method", function () {
-//        window.model = new Bitter.Model({}, {
-//          path: function () {
-//            return "http://domain/api"
-//          }
-//        });
-//      });
-
     });
 
     describe("Create", function () {
 
       it("should be able to create a model", function () {
-        Bitter.config.apiUri = "http://fakeApi";
+        Bitter.defaults.api.uri = "http://fakeApi";
 
         window.modelHash = {
           id: 1,
@@ -208,7 +196,7 @@ describe ("Models", function () {
           model.create();
 
           assume("var jQuery.ajax.mostRecentCall.args[0].method.toLowerCase() is 'post'");
-          assume("var jQuery.ajax.mostRecentCall.args[0].url is '"+Bitter.config.apiUri+"/1'");
+          assume("var jQuery.ajax.mostRecentCall.args[0].url is '"+Bitter.defaults.api.uri+"/1'");
         });
       });
 
@@ -217,7 +205,7 @@ describe ("Models", function () {
     describe("Delete", function () {
 
       it("should be able to delete a model", function () {
-        Bitter.config.apiUri = "http://fakeApi";
+        Bitter.defaults.api.uri = "http://fakeApi";
 
         window.modelHash = {
           id: 1,
@@ -230,7 +218,7 @@ describe ("Models", function () {
           model.delete();
 
           assume("var jQuery.ajax.mostRecentCall.args[0].method.toLowerCase() is 'delete'");
-          assume("var jQuery.ajax.mostRecentCall.args[0].url is '"+Bitter.config.apiUri+"/1'");
+          assume("var jQuery.ajax.mostRecentCall.args[0].url is '"+Bitter.defaults.api.uri+"/1'");
         });
       });
 

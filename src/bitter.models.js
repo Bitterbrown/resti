@@ -8,6 +8,7 @@ Bitter.Model = function (attributes) { "use strict";
 };
 
 Bitter.extend(Bitter.Model.prototype, Bitter.Events);
+Bitter.extend(Bitter.Model.prototype, Bitter.Connect);
 
 Bitter.extend(Bitter.Model.prototype, {
 
@@ -113,7 +114,7 @@ Bitter.extend(Bitter.Model.prototype, {
   },
 
   url: function () {
-    return Bitter.config.apiUri + "/" + this.get("id");
+    return Bitter.defaults.api.uri + "/" + this.get("id");
   }
 
 });
