@@ -32,10 +32,14 @@ Bitter.extend(Bitter.Model.prototype, {
 
   fetch: function () {
     if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
+    var _this = this;
 
     $.ajax({
       url: this.url(),
-      method: "GET"
+      method: "GET",
+      success: function (data) {
+        _this.parse(data);
+      }
     });
   },
 
@@ -47,6 +51,10 @@ Bitter.extend(Bitter.Model.prototype, {
     referenceModel.on("change:"+referenceAttribute, function (value) {
       _this.attributes[attribute] = value;
     });
+  },
+
+  parse: function (data) {
+    this.reset(data);
   },
 
   reset: function (hash) {

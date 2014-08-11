@@ -5,7 +5,12 @@ var Bitter = {
     "IS_FROZEN"             : "This model is frozen and can't accept updates",
     "IS_NOT_MODEL"          : "The given var is not a model",
     "MODEL_ALREADY_EXISTS"  : "The model is already present: skipping",
+    "MODEL_HAS_NO_ID"       : "The model doesn't have an ID",
+    "NO_API_URI"            : "No API uri is provided",
     "INDEX_NOT_FOUND"       : "Can't find any model with that index"
+  },
+  config: {
+    apiUri: false
   },
   modules: {
 
@@ -18,6 +23,14 @@ var Bitter = {
               return this.emit("error", Bitter._errors.IS_NOT_MODEL);
             break;
 
+          case "hasApiUrl":
+            if (Bitter.config.apiUri === false)
+              return this.emit("error", Bitter._errors.NO_API_URI);
+
+          case "modelHasID":
+            if (what.attributes === undefined || what.attributes.id === undefined)
+              return this.emit("error", Bitter._errors.MODEL_HAS_NO_ID);
+
           case "unfrozen":
             if (what.frozen === true)
               return this.emit("error", Bitter._errors.IS_FROZEN);
@@ -25,23 +38,11 @@ var Bitter = {
           case "unique":
             if(Bitter.isCollection(this) && this.find(what) !== false)
               return this.emit("error", Bitter._errors.MODEL_ALREADY_EXISTS);
+
         };
       };
       return true;
-    },
-
-    // Must run on collection scope
-//    bindCollectionEvents: function () {
-//      this.clearEvents();
-//
-//      for (var i=0; i<this.collection.length; i++) {
-//        if (Bitter.isModel(this.collection[i])) {
-//          this.collection[i].on("change", function (model) {
-//            this.emit("change", model);
-//          });
-//        };
-//      };
-//    }
+    }
   },
 
   extend: function(source, extension) {

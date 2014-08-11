@@ -138,6 +138,39 @@ describe ("Models", function () {
         });
       });
 
+      describe("Operations", function () {
+
+        beforeEach(function () {
+          Bitter.config.apiUri = "http://fakeApi";
+
+          window.model = new Bitter.Model({id: 1});
+          window.apiResponse = {
+            id: 1,
+            name: "test model",
+            description: "test model description"
+          }
+          assume("method jQuery.ajax is mocked", function (params) {
+            if(params.url == Bitter.config.apiUri + "/1" && params.method.toLowerCase() == "get")
+              params.success(window.apiResponse);
+          });
+        });
+
+        it("should call the parse method once the rest response is delivered", function () {
+          assume("method model.parse is called with var apiResponse", function () {
+            model.fetch();
+          });
+        });
+
+        it("should be able to update the model", function () {
+          assume("method model.reset() is called", function () {
+            model.fetch();
+
+            assume("var model.get('name') is 'test model' and var model.get('description') is 'test model description'");
+          });
+        });
+
+      });
+
 //      it("should automatically fetch if model has an ID and resti has the Restful API uri setted", function () {
 //
 //      })
