@@ -24,6 +24,30 @@ describe ("Models", function () {
 
   describe("Model methods", function () {
 
+    describe("Attach", function () {
+
+      it ("should be able to attach a model attribute to a specific callback", function () {
+        window.element = $('<div class="test-element">Test element text</div>');
+        $("body").append(element);
+
+        model = new Bitter.Model ({description: "My test description", id: 1});
+
+        model.attach("description", $(".test-element"));
+
+        model.set("description", "My new description");
+
+        assume("var $('.test-element').text() is 'My new description'");
+      });
+
+      it ("should be able to unfreeze a model", function () {
+        model.unfreeze();
+        model.set("name", "value when not frozen");
+
+        assume("var model.get('name') is 'value when not frozen'");
+      });
+
+    });
+
     describe("Freeze", function () {
 
       it ("should be able to freeze a model to keep it's status", function () {

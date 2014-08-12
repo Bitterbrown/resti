@@ -8,11 +8,16 @@ Bitter.Model = function (attributes) { "use strict";
 };
 
 Bitter.extend(Bitter.Model.prototype, Bitter.Events);
-Bitter.extend(Bitter.Model.prototype, Bitter.Connect);
 
 Bitter.extend(Bitter.Model.prototype, {
 
   __require: Bitter.modules.require,
+
+  attach: function (attribute, attachment, method) {
+    this.on("change:"+attribute, function (value) {
+      attachment[(method || "text")](value);
+    });
+  },
 
   create: function () {
     if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
