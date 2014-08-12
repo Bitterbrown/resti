@@ -32,7 +32,7 @@ describe ("Models", function () {
 
         model = new Bitter.Model ({description: "My test description", id: 1});
 
-        model.attach("description", $(".test-element"));
+        model.attach("description", $(".test-element") );
 
         model.set("description", "My new description");
 
