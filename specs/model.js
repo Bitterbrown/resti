@@ -106,6 +106,7 @@ describe ("Models", function () {
 
       it("should throw error if resti doesn't have the Restful API uri setted", function () {
         window.model = new Bitter.Model({id: 1});
+        Bitter.defaults.api.uri = false;
 
         assume("method model.emit is called", function () {
           model.fetch();

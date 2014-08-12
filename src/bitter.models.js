@@ -19,7 +19,7 @@ Bitter.extend(Bitter.Model.prototype, {
 
     var _this = this;
 
-    $.ajax({
+    Bitter.ajax({
       url: this.url(),
       method: "POST",
       success: function (data) {
@@ -33,7 +33,7 @@ Bitter.extend(Bitter.Model.prototype, {
   delete: function () {
     if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
 
-    $.ajax({
+    Bitter.ajax({
       url: this.url(),
       method: "DELETE",
       success: function (data) {
@@ -58,7 +58,7 @@ Bitter.extend(Bitter.Model.prototype, {
     if(this.__require(this, ["hasApiUrl", "modelHasID"]) !== true) return;
     var _this = this;
 
-    $.ajax({
+    Bitter.ajax({
       url: this.url(),
       method: "GET",
       success: function (data) {

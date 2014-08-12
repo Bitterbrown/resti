@@ -1,14 +1,20 @@
 var Bitter = function () {
 
-  // Getting ajax library if present
-  if(jQuery !== undefined && jQuery.ajax !== undefined)
-    __ajax = jQuery.ajax
-  else {
-    console.error("Resti requires a js library/framework with an ajax system");
-    __ajax = function () {
-      throw Error("No library found with ajax methods");
-    };
-  }
+  // Initial Setup
+  if(jQuery === undefined)
+    console.error("Resti requires jquery to make ajax calls");
+
+  var defaults = {
+    api: {
+      uri: false,
+      version: false
+    },
+    ajax: {
+      method    : "GET",
+      async     : true,
+      timeout   : 60000
+    }
+  };
 
   return {
     _ids: [],
@@ -21,12 +27,7 @@ var Bitter = function () {
       "NO_API_URI"            : "No API uri is provided",
       "INDEX_NOT_FOUND"       : "Can't find any model with that index"
     },
-    defaults: {
-      api: {
-        uri: false,
-          version: 1
-      }
-    },
+    defaults: defaults,
     modules: {
 
       // Must run on collection scope
@@ -60,7 +61,13 @@ var Bitter = function () {
       }
     },
 
-    ajax: __ajax,
+    ajax: function () {
+      for(prop in defaults.ajax) {
+        if (arguments[0][prop] === undefined)
+          arguments[0][prop] = defaults.ajax[prop];
+      }
+      jQuery.ajax.apply(this, arguments);
+    },
 
     extend: function(source, extension) {
       for(prop in extension) {
