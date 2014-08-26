@@ -1,7 +1,7 @@
 Bitter.Model = function (attributes) { "use strict";
 
   this.id = Bitter.getID();
-  this.attributes = attributes;
+  this.attributes = attributes || {};
   this.frozen = false;
 
   Bitter._instances[this.id] = this.attributes;

@@ -1,4 +1,5 @@
 model = undefined;
+emptyModel = undefined;
 
 describe ("Models", function () {
 
@@ -18,6 +19,12 @@ describe ("Models", function () {
 
     it ("should have an univocal id", function () {
       assume("var model.id isnt undefined");
+    });
+
+    it ("should give an empty object as attribute if none are given", function () {
+      emptyModel = new Bitter.Model();
+
+      assume("var emptyModel.attributes isnt undefined");
     });
 
   });
